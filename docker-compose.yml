@@ -31,6 +31,8 @@ services:
       - "5440:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      # *** این خط جدید را اضافه کنید ***
+      - ./db_init:/docker-entrypoint-initdb.d
 
   # 2. پایتون (Backend)
   backend:

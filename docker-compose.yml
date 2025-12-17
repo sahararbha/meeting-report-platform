@@ -1,0 +1,63 @@
+# version: '3.8'
+# services:
+#   db:
+#     image: postgres:16
+#     container_name: meeting_db_fixed
+#     environment:
+#       POSTGRES_USER: myuser
+#       POSTGRES_PASSWORD: mypassword
+#       POSTGRES_DB: meeting_db
+#     ports:
+#       - "5440:5432"
+#     volumes:
+#       - meeting_data_v16:/var/lib/postgresql/data
+
+# volumes:
+#   meeting_data_v16:
+
+
+version: '3.8'
+
+services:
+  # 1. دیتابیس
+  db:
+    image: postgres:16
+    container_name: meeting_db_container
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: meeting_db
+    ports:
+      - "5440:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  # 2. پایتون (Backend)
+  backend:
+    build: ./backend
+    container_name: meeting_backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      # اتصال به دیتابیس با نام سرویس 'db'
+      SQLALCHEMY_DATABASE_URI: postgresql://myuser:mypassword@db:5432/meeting_db
+    restart: always
+
+  # 3. ری‌اکت (Frontend)
+  frontend:
+    build: ./frontend
+    container_name: meeting_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - HTTPS=true
+      - WDS_SOCKET_PORT=0
+    stdin_open: true
+    tty: true
+
+volumes:
+  db_data:

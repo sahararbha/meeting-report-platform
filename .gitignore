@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+backend/venv/
+
+# Node.js (Frontend)
+node_modules/
+frontend/node_modules/
+build/
+frontend/build/
+
+# Database
+db_data/
+*.sqlite3
+
+# Environment variables (Security)
+.env
+.DS_Store

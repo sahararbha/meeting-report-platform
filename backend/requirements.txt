@@ -1,0 +1,10 @@
+flask
+flask-sqlalchemy
+flask-cors
+flask-socketio
+psycopg2-binary
+openai
+python-docx
+cryptography
+pyopenssl
+werkzeug
